@@ -8,8 +8,6 @@ Start project
 ### 3)add variable in .env:   
 **PORT=1234** (you can choice any port for app)  
 ### 4)install docker  
-**sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin**  
-### 5)install docker-compose  
-**apt-get install docker-compose-plugin**
+**sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin**
 ### 5)start app:  
 **docker compose up --build**
