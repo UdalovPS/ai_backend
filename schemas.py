@@ -11,7 +11,7 @@ class CheckWorkResponseSchem(BaseModel):
 
 class MessagesSchem(BaseModel):
     """Model for validation list of messages"""
-    role: str   # system or user or assistant
+    role: str  # system or user or assistant
     content: str
 
 
@@ -24,6 +24,13 @@ class InDataSchem(BaseModel):
 
 class MLSuccessAnswer(BaseModel):
     """Model for validation success response for 'ml/answer' route"""
-    text: str   # ML text answer
+    text: str  # ML text answer
     token: int  # Count token for answer
-    time: float   # time for generate answer with seconds
+    time: float  # time for generate answer with seconds
+
+
+class MLAnswer(BaseModel):
+    """Model for ML response for 'ml/answer' route"""
+    success: bool
+    data: MLSuccessAnswer
+    error: str
