@@ -147,3 +147,4 @@ webencodings==0.5.1
 websocket-client
 widgetsnbextension
 yarl
+python-dotenv

@@ -3,6 +3,8 @@ import time
 from langchain_community.llms import LlamaCpp
 import re
 
+from config import MODEL_PATH_1, MODEL_PATH_2
+
 
 def parse_json(data: dict):
     """
@@ -52,7 +54,7 @@ def model_inference(parsed_prompt: str,
 
     try:
         llm = LlamaCpp(
-            model_path="model-q2_K.gguf",
+            model_path=MODEL_PATH_1,
             temperature=temperature,
             max_tokens=max_tokens,
             verbose=False
