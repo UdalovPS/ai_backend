@@ -96,10 +96,6 @@ def create_answer_from_ml(in_data: InDataSchem):
 
     logger.info(f"Dump data: {data}")
     answer = llm.create_chat_completion(
-        # messages=[
-        #     # {'role': 'system', 'content': 'you are women'},
-        #     {'role': 'user', 'content': 'who are you?'}
-        # ]
         messages=data["messages"],
         max_tokens=in_data.max_tokens,
         temperature=in_data.temperature
@@ -107,5 +103,5 @@ def create_answer_from_ml(in_data: InDataSchem):
 
     logger.info(answer)
 
-    return {"text": "text", "token": 100}
+    return {"text": answer["choices"][0]["message"]["content"], "token": answer["usage"]["total_tokens"]}
 
