@@ -63,8 +63,9 @@ async def get_answer_for_ml_model(in_data: InDataSchem):
     try:
         logger.info(f"Received request with data: {in_data}")
         start_time = datetime.now()  # detect start time
-        in_data_dict = dict(in_data)
-        p, mt, t = parse_json(in_data_dict)
+        # in_data_dict = dict(in_data)
+        # p, mt, t = parse_json(in_data_dict)
+        p, mt, t = parse_json(in_data)
         res = model_inference(p, mt, t)
         answer_time = datetime.now() - start_time  # detect language model work time
         response_data = SuccessResponse(

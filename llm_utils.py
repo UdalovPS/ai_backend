@@ -4,9 +4,10 @@ from langchain_community.llms import LlamaCpp
 import re
 
 from config import MODEL_PATH_1, MODEL_PATH_2
+from schemas import InDataSchem
 
 
-def parse_json(data: dict):
+def parse_json(data: InDataSchem):
     """
     Function parser for upcoming jsons
     :param data: json dict with structure:
@@ -26,16 +27,20 @@ def parse_json(data: dict):
                temperature )
     """
     # Extracting the system prompt
-    system_prompt = data["messages"][0]["content"] if data["messages"][0]["role"] == "system" else "No system prompt"
-
+    # system_prompt = data["messages"][0]["content"] if data["messages"][0]["role"] == "system" else "No system prompt"
+    system_prompt = data.messages[0].content
+    temperature = data.temperature
+    max_tokens = data.max_tokens
     # Extracting temperature and max_tokens
-    temperature = data["temperature"]
-    max_tokens = data["max_tokens"]
+    # temperature = data["temperature"]
+    # max_tokens = data["max_tokens"]
 
     # Creating the dialog string
     dialog = "Диалог:\n"
-    for message in data["messages"][1:]:
-        dialog += f"{message['role']} - {message['content']}\n"
+    # for message in data["messages"][1:]:
+    #     dialog += f"{message['role']} - {message['content']}\n"
+    for message in data.messages[1:]:
+        dialog += f"{message.role} - {message.content}\n"
 
     # Formatting the final output
     parced_prompt = f"{system_prompt}\n\n{dialog}\nТвой ответ:"
