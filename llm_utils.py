@@ -93,10 +93,12 @@ def create_answer_from_ml(in_data: InDataSchem):
         verbose=True,  # Verbose is required to pass to the callback manager
     )
 
+    logger.info(f"Dump data: {data}")
+
     answer = llm.create_chat_completion(
         messages=data["messages"],
         max_tokens=in_data.max_tokens,
-        temperature=in_data.temperature
+        # temperature=in_data.temperature
     )
 
     logger.info(answer)
