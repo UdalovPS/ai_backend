@@ -68,6 +68,7 @@ def model_inference(parsed_prompt: str,
         temperature=temperature,
         max_tokens=max_tokens,
         verbose=True,
+        n_ctx=2048,
     )
     res = llm.invoke(parsed_prompt)
     # Проверка, есть ли результат от нейросети
