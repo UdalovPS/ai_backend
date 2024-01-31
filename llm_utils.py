@@ -53,14 +53,6 @@ def model_inference(parsed_prompt: str,
                     max_tokens: int,
                     temperature: float):
     logger.info(f"Request for ML model data. Text: {parsed_prompt}. Max_tokens: {max_tokens}. Temperature: {temperature}")
-
-    # response = {
-    #     "success": False,
-    #     "data": {"text": None,
-    #              "token": None},
-    #     "error": None
-    # }
-
     logger.info(f"Create ML model with path: {MODEL_PATH_1}")
     # try:
     llm = LlamaCpp(
@@ -76,17 +68,28 @@ def model_inference(parsed_prompt: str,
         tokens = re.findall(r'\b\w+\b', res)
         token_count = len(tokens)
 
-        # response["success"] = True
-        # response["data"]["text"] = res
-        # response["data"]["token"] = token_count
-        #
-
         logger.info(f"ML res. Text: {res}, Tokens: {token_count}")
         return {"text": res, "token": token_count}
 
     else:
-        # response["error"] = "Нейросеть не вернула результат"
         logger.error(f"Ml model not generate answer")
         return {"text": None, "token": None}
 
+
+def create_answer_from_ml(in_data: InDataSchem):
+    logger.info(f"Received data to generate a response")
+    logger.debug(f"Inner data: {in_data}")
+    data = in_data.model_dump()
+
+    llm = LlamaCpp(model_path=MODEL_PATH_1, verbose=False)  # create ML object
+
+    answer = llm.create_chat_completion(
+        messages=data["messages"],
+        max_tokens=in_data.max_tokens,
+        temperature=in_data.temperature
+    )
+
+    logger.info(answer)
+
+    return {"text": "text", "token": 100}
 

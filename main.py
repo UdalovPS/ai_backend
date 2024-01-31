@@ -12,7 +12,7 @@ from schemas import CheckWorkResponseSchem, InDataSchem, MLSuccessAnswer, MLAnsw
 from response_core import SuccessResponse, ErrorResponse
 
 # import llm logic
-from llm_utils import parse_json, model_inference
+from llm_utils import parse_json, model_inference, create_answer_from_ml
 
 # set logging level
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
@@ -63,10 +63,9 @@ async def get_answer_for_ml_model(in_data: InDataSchem):
     try:
         logger.info(f"Received request with data: {in_data}")
         start_time = datetime.now()  # detect start time
-        # in_data_dict = dict(in_data)
-        # p, mt, t = parse_json(in_data_dict)
-        p, mt, t = parse_json(in_data)
-        res = model_inference(p, mt, t)
+        # p, mt, t = parse_json(in_data)
+        # res = model_inference(p, mt, t)
+        res = create_answer_from_ml(in_data=in_data)
         answer_time = datetime.now() - start_time  # detect language model work time
         response_data = SuccessResponse(
             data=MLSuccessAnswer(
