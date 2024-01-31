@@ -81,6 +81,7 @@ async def get_answer_for_ml_model(in_data: InDataSchem):
         )
     except Exception as ex:
         logger.warning(f"Error to generate ML answer: {ex}")
+        logger.exception(ex)
         response_data = ErrorResponse(
             error=CheckWorkResponseSchem(
                 info="error to generate ML answer"
