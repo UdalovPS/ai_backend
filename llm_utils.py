@@ -93,7 +93,8 @@ def create_answer_from_ml(in_data: InDataSchem):
     llm = Llama(
         model_path=MODEL_PATH_1,
         verbose=True,  # Verbose is required to pass to the callback manager,
-        chat_format="llama-2"
+        chat_format="llama-2",
+        n_gpu_layers=-1
     )
 
     logger.info(f"Dump data: {data}")
