@@ -69,6 +69,7 @@ def model_inference(parsed_prompt: str,
         max_tokens=max_tokens,
         verbose=True,
         n_ctx=2048,
+        n_gpu_layers=-1
     )
     res = llm.invoke(parsed_prompt)
     # Проверка, есть ли результат от нейросети
