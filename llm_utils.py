@@ -1,9 +1,15 @@
 import json
 import time
 from langchain_community.llms import LlamaCpp
-from llama_cpp import Llama
 import re
 import logging
+
+
+from langchain.callbacks.manager import CallbackManager
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from llama_cpp import Llama
 
 from config import MODEL_PATH_1, MODEL_PATH_2
 from schemas import InDataSchem
@@ -82,13 +88,31 @@ def create_answer_from_ml(in_data: InDataSchem):
     logger.info(f"Received data to generate a response")
     logger.debug(f"Inner data: {in_data}")
     data = in_data.model_dump()
+    template = """Question: {question}
+    Answer: Let's work this out in a step by step way to be sure we have the right answer."""
 
-    llm = Llama(model_path=MODEL_PATH_1, verbose=False)  # create ML object
+    callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+
+    prompt = PromptTemplate(template=in_data.messages[0].content, input_variables=["question"])
+
+    # llm = LlamaCpp(
+    #     model_path=MODEL_PATH_1,
+    #     callback_manager=callback_manager,
+    #     verbose=True,  # Verbose is required to pass to the callback manager
+    # )
+    # llm_chain = LLMChain(prompt=prompt, llm=llm)
+    # answer = llm_chain.run(question)
+    llm = Llama(
+        model_path=MODEL_PATH_1,
+        verbose=True,  # Verbose is required to pass to the callback manager
+    )
 
     answer = llm.create_chat_completion(
-        messages=data["messages"],
-        max_tokens=in_data.max_tokens,
-        temperature=in_data.temperature
+        max_tokens=1000,
+        messages=[
+            {"role": "system", "content": "You are women"},
+            {"role": "user", "content": "Who are you?"},
+        ]
     )
 
     logger.info(answer)
