@@ -36,19 +36,12 @@ def parse_json(data: InDataSchem):
                max_tokens,
                temperature )
     """
-    # Extracting the system prompt
-    # system_prompt = data["messages"][0]["content"] if data["messages"][0]["role"] == "system" else "No system prompt"
     system_prompt = data.messages[0].content
     temperature = data.temperature
     max_tokens = data.max_tokens
-    # Extracting temperature and max_tokens
-    # temperature = data["temperature"]
-    # max_tokens = data["max_tokens"]
 
     # Creating the dialog string
     dialog = "Диалог:\n"
-    # for message in data["messages"][1:]:
-    #     dialog += f"{message['role']} - {message['content']}\n"
     for message in data.messages[1:]:
         dialog += f"{message.role} - {message.content}\n"
 
@@ -68,8 +61,8 @@ def model_inference(parsed_prompt: str,
         temperature=temperature,
         max_tokens=max_tokens,
         verbose=True,
-        n_ctx=2048,
-        n_gpu_layers=-1
+        # n_ctx=2048,       up context
+        # n_gpu_layers=-1    add GPU
     )
     res = llm.invoke(parsed_prompt)
     # Проверка, есть ли результат от нейросети
