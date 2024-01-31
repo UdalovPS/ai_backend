@@ -1,6 +1,7 @@
 import json
 import time
 from langchain_community.llms import LlamaCpp
+from llama_cpp import Llama
 import re
 import logging
 
@@ -8,6 +9,7 @@ from config import MODEL_PATH_1, MODEL_PATH_2
 from schemas import InDataSchem
 
 logger = logging.getLogger(__name__)
+
 
 def parse_json(data: InDataSchem):
     """
@@ -81,7 +83,7 @@ def create_answer_from_ml(in_data: InDataSchem):
     logger.debug(f"Inner data: {in_data}")
     data = in_data.model_dump()
 
-    llm = LlamaCpp(model_path=MODEL_PATH_1, verbose=False)  # create ML object
+    llm = Llama(model_path=MODEL_PATH_1, verbose=False)  # create ML object
 
     answer = llm.create_chat_completion(
         messages=data["messages"],
