@@ -64,7 +64,7 @@ def model_inference(parsed_prompt: str,
     logger.info(f"Create ML model with path: {MODEL_PATH_1}")
     # try:
     llm = LlamaCpp(
-        model_path=MODEL_PATH_1,
+        model_path=MODEL_PATH_2,
         temperature=temperature,
         max_tokens=max_tokens,
         verbose=True,
