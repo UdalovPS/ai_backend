@@ -60,12 +60,12 @@ def model_inference(parsed_prompt: str,
     logger.info(f"Create ML model with path: {MODEL_PATH_1}")
     # try:
     llm = LlamaCpp(
-        model_path=MODEL_PATH_2,
+        model_path=MODEL_PATH_1,
         temperature=temperature,
         max_tokens=max_tokens,
         verbose=True,
-        # n_ctx=2048,       up context
-        # n_gpu_layers=-1    add GPU
+        n_ctx=2048,       # up context
+        n_gpu_layers=-1    # add GPU
     )
     res = llm.invoke(parsed_prompt)
     # Проверка, есть ли результат от нейросети
