@@ -70,13 +70,11 @@ async def get_answer_for_ml_model(in_data: InDataSchem):
         answer_time = datetime.now() - start_time  # detect language model work time
         response_data = SuccessResponse(
             data=MLAnswer(
-                success=res['success'],
                 data=MLSuccessAnswer(
-                    text=res['data']['text'],
-                    token=res['data']['token'],
+                    text=res['text'],
+                    token=res['token'],
                     time=answer_time.total_seconds()
                 ),
-                error=res['error']
             ),
             api="ml"
         )

@@ -54,12 +54,12 @@ def model_inference(parsed_prompt: str,
                     temperature: float):
     logger.info(f"Request for ML model data. Text: {parsed_prompt}. Max_tokens: {max_tokens}. Temperature: {temperature}")
 
-    response = {
-        "success": False,
-        "data": {"text": None,
-                 "token": None},
-        "error": None
-    }
+    # response = {
+    #     "success": False,
+    #     "data": {"text": None,
+    #              "token": None},
+    #     "error": None
+    # }
 
     logger.info(f"Create ML model with path: {MODEL_PATH_1}")
     # try:
@@ -76,17 +76,17 @@ def model_inference(parsed_prompt: str,
         tokens = re.findall(r'\b\w+\b', res)
         token_count = len(tokens)
 
-        response["success"] = True
-        response["data"]["text"] = res
-        response["data"]["token"] = token_count
+        # response["success"] = True
+        # response["data"]["text"] = res
+        # response["data"]["token"] = token_count
+        #
 
         logger.info(f"ML res. Text: {res}, Tokens: {token_count}")
+        return {"text": res, "token": token_count}
 
     else:
-        response["error"] = "Нейросеть не вернула результат"
+        # response["error"] = "Нейросеть не вернула результат"
         logger.error(f"Ml model not generate answer")
+        return {"text": None, "token": None}
 
-    # except Exception as e:
-    #     response["error"] = str(e)
 
-    return response
