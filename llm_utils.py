@@ -2,10 +2,12 @@ import json
 import time
 from langchain_community.llms import LlamaCpp
 import re
+import logging
 
 from config import MODEL_PATH_1, MODEL_PATH_2
 from schemas import InDataSchem
 
+logger = logging.getLogger(__name__)
 
 def parse_json(data: InDataSchem):
     """
@@ -50,6 +52,8 @@ def parse_json(data: InDataSchem):
 def model_inference(parsed_prompt: str,
                     max_tokens: int,
                     temperature: float):
+    logger.info(f"Request for ML model data. Text: {parsed_prompt}. Max_tokens: {max_tokens}. Temperature: {temperature}")
+
     response = {
         "success": False,
         "data": {"text": None,
@@ -57,28 +61,32 @@ def model_inference(parsed_prompt: str,
         "error": None
     }
 
-    try:
-        llm = LlamaCpp(
-            model_path=MODEL_PATH_1,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            verbose=False
-        )
-        res = llm.invoke(parsed_prompt)
-        # Проверка, есть ли результат от нейросети
-        if res:
-            # Разделение строки на токены
-            tokens = re.findall(r'\b\w+\b', res)
-            token_count = len(tokens)
+    logger.info(f"Create ML model with path: {MODEL_PATH_1}")
+    # try:
+    llm = LlamaCpp(
+        model_path=MODEL_PATH_1,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        verbose=False
+    )
+    res = llm.invoke(parsed_prompt)
+    # Проверка, есть ли результат от нейросети
+    if res:
+        # Разделение строки на токены
+        tokens = re.findall(r'\b\w+\b', res)
+        token_count = len(tokens)
 
-            response["success"] = True
-            response["data"]["text"] = res
-            response["data"]["token"] = token_count
+        response["success"] = True
+        response["data"]["text"] = res
+        response["data"]["token"] = token_count
 
-        else:
-            response["error"] = "Нейросеть не вернула результат"
+        logger.info(f"ML res. Text: {res}, Tokens: {token_count}")
 
-    except Exception as e:
-        response["error"] = str(e)
+    else:
+        response["error"] = "Нейросеть не вернула результат"
+        logger.error(f"Ml model not generate answer")
+
+    # except Exception as e:
+    #     response["error"] = str(e)
 
     return response
