@@ -90,13 +90,13 @@ def create_answer_from_ml(in_data: InDataSchem):
     data = in_data.model_dump()
     llm = Llama(
         model_path=MODEL_PATH_1,
-        verbose=True,  # Verbose is required to pass to the callback manager
+        verbose=False,  # Verbose is required to pass to the callback manager
     )
 
     logger.info(f"Dump data: {data}")
-
+    ddd = [{'role': 'system', 'content': 'you are women'}, {'role': 'user', 'content': 'who are you?'}]
     answer = llm.create_chat_completion(
-        messages=data["messages"],
+        messages=ddd,
         max_tokens=in_data.max_tokens,
         # temperature=in_data.temperature
     )
