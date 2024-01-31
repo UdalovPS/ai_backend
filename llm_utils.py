@@ -90,7 +90,7 @@ def create_answer_from_ml(in_data: InDataSchem):
     data = in_data.model_dump()
     llm = Llama(
         model_path=MODEL_PATH_1,
-        verbose=False,  # Verbose is required to pass to the callback manager,
+        verbose=True,  # Verbose is required to pass to the callback manager,
         chat_format="llama-2"
     )
 
@@ -98,7 +98,7 @@ def create_answer_from_ml(in_data: InDataSchem):
     ddd = [{'role': 'system', 'content': 'you are women'}, {'role': 'user', 'content': 'who are you?'}]
     answer = llm.create_chat_completion(
         messages=[
-            {'role': 'system', 'content': 'you are women'},
+            # {'role': 'system', 'content': 'you are women'},
             {'role': 'user', 'content': 'who are you?'}
         ]
         # max_tokens=in_data.max_tokens,
