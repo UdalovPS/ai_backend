@@ -94,7 +94,8 @@ def create_answer_from_ml(in_data: InDataSchem):
         model_path=MODEL_PATH_1,
         verbose=True,  # Verbose is required to pass to the callback manager,
         chat_format="llama-2",
-        n_gpu_layers=-1
+        n_gpu_layers=-1,
+        n_ctx=2048
     )
 
     logger.info(f"Dump data: {data}")
