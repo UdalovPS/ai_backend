@@ -36,17 +36,20 @@ def parse_json(data: InDataSchem):
                max_tokens,
                temperature )
     """
-    system_prompt = data.messages[0].content
+    parced_prompt = ""
     temperature = data.temperature
     max_tokens = data.max_tokens
 
-    # Creating the dialog string
-    dialog = "Диалог:\n"
-    for message in data.messages[1:]:
-        dialog += f"{message.role} - {message.content}\n"
+    # Обработка сообщений
+    for message in data.messages:
+        if message.role == "system":
+            parced_prompt += f"<s>system\n {message.content} </s> "
+        elif message.role == "user":
+            parced_prompt += f"<s>user\n {message.content} </s> "
+        elif message.role == "assistant":
+            parced_prompt += f"<s>assistant\n {message.content} </s> "
 
-    # Formatting the final output
-    parced_prompt = f"{system_prompt}\n\n{dialog}\nТвой ответ:"
+    parced_prompt += "<s>bot"
     return parced_prompt, max_tokens, temperature
 
 
